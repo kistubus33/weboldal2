@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Képek</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #b0b0b0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            margin: 0;
+            padding-top: 60px;
+            position: relative;
+        }
+
+
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #121212;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 4;
+        }
+
+        .header-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: monospace;
+            position: fixed;
+            top: 10px;
+            left: 55%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeIn 3s ease-in-out forwards;
+            z-index: 5;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateX(-50%) scale(0.8); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1); }
+        }
+
+        .sidebar-trigger {
+            width: 10px;
+            height: 30px;
+            background-color: #b0b0b0;
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .sidebar {
+            position: absolute;
+            left: -100px;
+            width: 100px;
+            height: 50px;
+            background-color: #121212;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b0b0b0;
+            border-radius: 10px;
+            transition: left 0.3s ease-in-out;
+            font-family: monospace;
+            cursor: pointer;
+        }
+
+        .header:hover .sidebar {
+            left: 0;
+        }
+
+        .header:hover .sidebar-trigger {
+            width: 20px;
+        }
+
+        .menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu-button {
+            background-color: #333;
+            color: #b0b0b0;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            font-family: monospace;
+        }
+
+        .menu-button:hover {
+            background-color: #444;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 18px;
+            width: 80%;
+            margin-top: 100px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+            display: block;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0; /* Ezzel az overlay teljesen lefedi a képet */
+            background: rgba(128, 128, 128, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            font-family: monospace;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            width: 100%;
+            height: 100%; /* Így mindig a kép méretéhez igazodik */
+        }
+
+        .gallery img {
+            width: 100%; /* Az alapbeállításod megmarad */
+            height: 100%; /* Ezzel biztosítod, hogy a képek kitöltsék a konténerüket */
+            object-fit: cover; /* A kép szépen kitölti a rendelkezésre álló területet */
+            transition: transform 0.3s ease-in-out;
+            display: block;
+        }
+
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="sidebar-trigger"></div>
+        <div class="sidebar" onclick="easterEgg()">Huba.</div>
+        <div class="menu">
+            <button class="menu-button" onclick="location.href='ize.html'">Kezdolap</button>
+            <button class="menu-button" onclick="location.href='#'">Rolam</button>
+            <button class="menu-button" onclick="location.href='#'">Contact</button>
+        </div>
+    </div>
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/B3CRaKJ.jpeg" alt="Kép 1">
+            <div class="overlay">Eguisheim, France📍</div>
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/tJrnIUa.jpeg" alt="Kép 2">
+            <div class="overlay">Switzerland📍</div>
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/5aDKXBq.jpeg" alt="Kép 3">
+            <div class="overlay">Murcia, Spain📍</div>
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.imgur.com/IDxFzud.jpeg" alt="Kép 4">
+            <div class="overlay">Alicante, Spain📍</div>
+        </div>
+        <div class="gallery-item">
+            <img src="1742503303646.jpg" alt="Kép 5">
+            <div class="overlay">Tihany, Hungary📍</div>
+        </div>
+        <div class="gallery-item">
+            <img src="1743346762151.jpg" alt="Kép 6">
+            <div class="overlay">Pázmánd, Hungary📍</div>
+        </div>
+    </div>
+
+    <script>
+    </script>
+
+</body>
+</html>

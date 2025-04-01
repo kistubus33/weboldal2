@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapcsolat</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(250, 250, 250, 0.2);
+            width: 350px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ffffff;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
+            transform: translateX(-10px);
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #444, #222);
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #444, #222);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .back-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        .social-icons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+        }
+        .social-icons img {
+            width: 100%;
+            height: auto;
+            transition: 0.3s;
+        }
+        .social-icons img:hover {
+            transform: scale(1.2);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes submitAnimation {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate {
+            animation: submitAnimation 0.5s ease-in-out;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Téma váltó gomb */
+        #themeToggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #333;
+            color: #b0b0b0;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+            z-index: 10;
+        }
+
+        #themeToggle:hover {
+            background-color: #444;
+        }
+
+        /* Világos téma */
+        .light-mode {
+            background-color: #f5f5f5;
+            color: #121212;
+        }
+
+        .light-mode #themeToggle {
+            background-color: #ddd;
+            color: #121212;
+        }
+    </style>
+    <script>
+        // A form submit eseményének kezelése
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();  // Megakadályozza az oldal újratöltését
+    
+            const textarea = document.getElementById('message');
+            const container = document.querySelector('.container');
+            
+            // Ha az üzenet hosszabb, mint 200 karakter
+            if (textarea.value.length > 200) {
+                alert('Az üzenet nem lehet hosszabb 200 karakternél!');
+            } else {
+                // Ha az üzenet megfelelő
+                const button = document.querySelector('button');
+                button.classList.add('animate');
+                setTimeout(() => button.classList.remove('animate'), 500);
+    
+                // Megváltoztatjuk a box-shadow-ot megerősítésképpen
+                container.style.boxShadow = "0 0 20px #00870e";  // Zöld árnyék
+    
+                // Visszaállítjuk az eredeti box-shadow-ot 2 másodperc múlva
+                setTimeout(() => {
+                    container.style.boxShadow = "0 0 20px rgba(250, 250, 250, 0.2)"; // Eredeti árnyék
+    
+                    // 2 másodperc után újratöltjük az oldalt
+                    location.reload();  // Újratöltés
+                }, 2000);  // 2 másodperc múlva visszaállítjuk és újratöltjük az oldalt
+            }
+        });
+    </script>
+</head>
+<body>
+    <button id="themeToggle">🌙 Dark Mode</button>
+    <canvas id="backgroundCanvas"></canvas>
+    <div class="container">
+        <h2>Kapcsolat Velem</h2>
+        <form onsubmit="validateMessage(event)">
+            <input type="text" placeholder="Neved" required>
+            <input type="email" placeholder="Email címed" required>
+            <textarea id="message" placeholder="Üzeneted (max. 200 karakter)" rows="4" required></textarea>
+            <button type="submit">Küldés</button>
+        </form>
+        <a href="ize.html" class="back-link">Vissza a főoldalra</a>
+        <div class="social-icons">
+            <a href="https://github.com/kistubus33" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+            </a>
+            <a href="https://instagram.com/huba.laszlo" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/87/87390.png" alt="Instagram">
+            </a>
+            <a href="tel:+36309363898" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/159/159832.png" alt="Telefon">
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("backgroundCanvas");
+        const ctx = canvas.getContext("2d");
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let isDarkMode = localStorage.getItem("theme") !== "light";
+
+        let lines = [];
+        for (let i = 0; i < 50; i++) {
+            lines.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                length: Math.random() * 100 + 50,
+                speedX: (Math.random() - 1.0) * 0.02,
+                speedY: (Math.random() - 1.0) * 0.02,
+                angle: Math.random() * Math.PI * 2,
+                rotationSpeed: (Math.random() - 0.5) * 0.02
+            });
+        }
+
+        function drawLines() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.2)";
+            ctx.fillStyle = isDarkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
+
+            lines.forEach(line => {
+                ctx.save();
+                ctx.translate(line.x, line.y);
+                ctx.rotate(line.angle);
+
+                // Vonal rajzolása
+                ctx.beginPath();
+                ctx.moveTo(-line.length / 2, 0);
+                ctx.lineTo(line.length / 2, 0);
+                ctx.stroke();
+
+                // Kis körök a végeken
+                ctx.beginPath();
+                ctx.arc(-line.length / 2, 0, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(line.length / 2, 0, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+
+                // Mozgás és forgás
+                line.x += line.speedX;
+                line.y += line.speedY;
+                line.angle += line.rotationSpeed;
+
+                // Ha kimegy a képernyőről, újra pozicionáljuk
+                if (line.x < 0 || line.x > canvas.width || line.y < 0 || line.y > canvas.height) {
+                    line.x = Math.random() * canvas.width;
+                    line.y = Math.random() * canvas.height;
+                }
+            });
+
+            requestAnimationFrame(drawLines);
+        }
+
+        function applyTheme() {
+            if (isDarkMode) {
+                body.classList.remove("light-mode");
+                themeToggle.textContent = "🌙 Dark Mode";
+            } else {
+                body.classList.add("light-mode");
+                themeToggle.textContent = "☀️ Light Mode";
+            }
+            drawLines(); // Újrarajzoljuk a vonalakat a megfelelő színekkel
+        }
+
+        themeToggle.addEventListener("click", () => {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+            applyTheme();
+        });
+
+        applyTheme();
+        drawLines();
+    </script>
+</body>
+</html>

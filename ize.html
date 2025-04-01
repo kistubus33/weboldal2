@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weboldal2.</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #b0b0b0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+            perspective: 1px;
+        }
+
+        .parallax {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://source.unsplash.com/1600x900/?dark,abstract') no-repeat center center/cover;
+            transform: translateZ(-1px) scale(1.5);
+        }
+
+        .webo {
+            font-family: monospace;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #121212;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 3;
+        }
+
+        .sidebar-trigger {
+            width: 10px;
+            height: 30px;
+            background-color: #b0b0b0;
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .sidebar {
+            position: absolute;
+            left: -100px;
+            width: 100px;
+            height: 50px;
+            background-color: #121212;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b0b0b0;
+            border-radius: 10px;
+            transition: left 0.3s ease-in-out;
+            font-family: monospace;
+            cursor: pointer;
+        }
+
+        .header:hover .sidebar {
+            left: 0;
+        }
+
+        .header:hover .sidebar-trigger {
+            width: 20px;
+        }
+
+        .menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu-button {
+            background-color: #333;
+            color: #b0b0b0;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            font-family: monospace;
+        }
+
+        .menu-button:hover {
+            background-color: #444;
+        }
+
+        .add-btn {
+            width: 50px;
+            height: 50px;
+            background-color: #333;
+            color: #b0b0b0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            user-select: none;
+            margin-top: 20px;
+            z-index: 1;
+        }
+
+        .add-btn:hover {
+            background-color: #444;
+        }
+
+        .text-container {
+            position: absolute;
+            top: 20%;
+            right: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            text-align: right;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .added-text {
+            font-family: 'Verdana', sans-serif;
+            font-size: 18px;
+            color: #808080;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInText 0.5s ease-in-out forwards;
+        }
+
+        input {
+            background-color: #222;
+            border: none;
+            color: #b0b0b0;
+            padding: 10px;
+            font-size: 16px;
+            width: 60%;
+            text-align: center;
+            outline: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            animation: fadeIn 3s ease-in-out forwards;
+            z-index: 2;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateX(-50%) scale(0.8); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); background-color: #222; }
+            25% { transform: translateX(-5px); background-color: #442222; }
+            50% { transform: translateX(5px); background-color: #552222; }
+            75% { transform: translateX(-5px); background-color: #442222; }
+            100% { transform: translateX(0); background-color: #222; }
+}
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+                /* Vászon (canvas) a mozgó vonalakhoz */
+                canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Téma váltó gomb */
+        #themeToggle {
+            position: fixed;
+            top: 7px;
+            right: 220px;
+            background-color: #333;
+            color: #b0b0b0;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+            z-index: 10;
+        }
+
+        #themeToggle:hover {
+            background-color: #444;
+        }
+
+        /* Világos téma */
+        .light-mode {
+            background-color: #f5f5f5;
+            color: #121212;
+        }
+
+        .light-mode #themeToggle {
+            background-color: #ddd;
+            color: #121212;
+        }
+    </style>
+</head>
+<body>
+    <button id="themeToggle">🌙</button>
+    <canvas id="backgroundCanvas"></canvas>
+    <div class="parallax"></div>
+    <h1 class="webo">weboldal2.</h1>
+    <input type="text" id="userInput" placeholder="Írd be a szöveget...">
+    <div class="header">
+        <div class="sidebar-trigger"></div>
+        <div class="sidebar" onclick="easterEgg()">Huba.</div>
+        <div class="menu">
+            <button class="menu-button" onclick="location.href='cic.html'">Kepek</button>
+            <button class="menu-button" onclick="location.href='#'">Rolam</button>
+            <button class="menu-button" onclick="location.href='cont.html'">Contact</button>
+        </div>
+    </div>
+    <div class="overlay-text">weboldal2.</div>
+    <div class="text-container" id="textContainer"></div>
+    <div class="add-btn" onclick="addText()">+</div>
+    
+    <script>
+        const forbiddenWords = ["kurva", "buzi", "fasz", "néger", "nigger", "cigány", "nyomorult"];
+    
+        function addText() {
+            const textContainer = document.getElementById("textContainer");
+            const userInputField = document.getElementById("userInput");
+            const userInput = userInputField.value.trim().toLowerCase();
+    
+            if (userInput === "") {
+                triggerShake(userInputField, "#222");
+                return;
+            }
+    
+            if (forbiddenWords.includes(userInput)) {
+                triggerShake(userInputField, "#222"); 
+                return;
+            }
+    
+            if (userInput === "del") {
+                if (textContainer.lastChild) {
+                    textContainer.removeChild(textContainer.lastChild);
+                }
+            } else {
+                const newText = document.createElement("p");
+                newText.textContent = userInput === "cica" ? "😺" : userInput;
+                newText.className = "added-text";
+                textContainer.appendChild(newText);
+                highlightSuccess(userInputField);
+            }
+    
+            userInputField.value = "";
+        }
+    
+        function triggerShake(element, color) {
+            element.style.backgroundColor = color;
+            element.classList.add("shake");
+            setTimeout(() => {
+                element.style.transition = "background-color 0.5s ease-in-out";
+                element.style.backgroundColor = "#222"; 
+                element.classList.remove("shake");
+            }, 500);
+        }
+    
+        function highlightSuccess(element) {
+            element.style.transition = "background-color 0.5s ease-in-out";
+            element.style.backgroundColor = "#168716"; 
+            setTimeout(() => {
+                element.style.backgroundColor = "#222"; 
+            }, 500);
+        }
+
+        const canvas = document.getElementById("backgroundCanvas");
+        const ctx = canvas.getContext("2d");
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let isDarkMode = localStorage.getItem("theme") !== "light";
+
+        let lines = [];
+        for (let i = 0; i < 50; i++) {
+            lines.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                length: Math.random() * 100 + 50,
+                speedX: (Math.random() - 1.0) * 0.02,
+                speedY: (Math.random() - 1.0) * 0.02,
+                angle: Math.random() * Math.PI * 2,
+                rotationSpeed: (Math.random() - 0.5) * 0.02
+            });
+        }
+
+        function drawLines() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.2)";
+            ctx.fillStyle = isDarkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
+
+            lines.forEach(line => {
+                ctx.save();
+                ctx.translate(line.x, line.y);
+                ctx.rotate(line.angle);
+
+
+                ctx.beginPath();
+                ctx.moveTo(-line.length / 2, 0);
+                ctx.lineTo(line.length / 2, 0);
+                ctx.stroke();
+
+
+                ctx.beginPath();
+                ctx.arc(-line.length / 2, 0, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(line.length / 2, 0, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+
+                line.x += line.speedX;
+                line.y += line.speedY;
+                line.angle += line.rotationSpeed;
+
+
+                if (line.x < 0 || line.x > canvas.width || line.y < 0 || line.y > canvas.height) {
+                    line.x = Math.random() * canvas.width;
+                    line.y = Math.random() * canvas.height;
+                }
+            });
+
+            requestAnimationFrame(drawLines);
+        }
+
+        function applyTheme() {
+            if (isDarkMode) {
+                body.classList.remove("light-mode");
+                themeToggle.textContent = "🌙";
+            } else {
+                body.classList.add("light-mode");
+                themeToggle.textContent = "☀️";
+            }
+            drawLines(); 
+        }
+
+        themeToggle.addEventListener("click", () => {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+            applyTheme();
+        });
+
+        applyTheme();
+        drawLines();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+
+    </script>
+    
+    
+</body>
+</html>
