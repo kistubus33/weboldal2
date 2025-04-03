@@ -245,7 +245,7 @@
         <div class="sidebar-trigger"></div>
         <div class="sidebar" onclick="easterEgg()">Huba.</div>
         <div class="menu">
-            <button class="menu-button" onclick="location.href='img.html'">Kepek</button>
+            <button class="menu-button" onclick="location.href='cic.html'">Kepek</button>
             <button class="menu-button" onclick="location.href='me.html'">Rolam</button>
             <button class="menu-button" onclick="location.href='cont.html'">Contact</button>
         </div>
@@ -256,6 +256,20 @@
     
     <script>
         const forbiddenWords = ["kurva", "buzi", "fasz", "néger", "nigger", "cigány", "nyomorult"];
+        const questionAnswers = {
+            "hogy vagy?": "megvagyok köszi :))",
+            "mi a neved?": "Huba",
+            "hány óra van?": () => {
+            const now = new Date();
+            return `Most ${now.getHours()}:${now.getMinutes().toString().padStart(2, "0")}`;
+        },
+    "szeretsz?": "Persze, te vagy a kedvencem! 😊",
+    "hány éves vagy?": "17",
+    "mit iszol éppen?": "Vagy Colat vagy Capri sun-t",
+    "bármire tudsz válaszolni?": "Nem sajnos, előre belém táplált válaszokat adok!",
+    "hova jársz suliba?": "További infoért rólam látogasd meg a (Rólam) oldalt, amit a jobb felső sarokban érsz el!"
+
+    };
 
         function addText() {
     const textContainer = document.getElementById("textContainer");
@@ -278,6 +292,25 @@
         }
         return;
     }
+
+    const lowerInput = userInput.toLowerCase();
+
+    if (questionAnswers.hasOwnProperty(lowerInput)) {
+        const response = typeof questionAnswers[lowerInput] === "function" 
+            ? questionAnswers[lowerInput]() 
+            : questionAnswers[lowerInput];
+
+        const newText = document.createElement("p");
+        newText.textContent = response;
+        newText.className = "added-text";
+        newText.style.color = "gold";
+        textContainer.appendChild(newText);
+        highlightSuccess(userInputField);
+        userInputField.value = "";
+        return;
+    }
+
+
 
     let displayText = userInput;
     const newText = document.createElement("p");
@@ -306,10 +339,15 @@
         }
     }
 
+    if (userInput == "Hány éves vagy?") {
+        newText.textContent = "17";
+        newText.style.color = "gold";
+    }
+
     if (finalWords.length === 1 && finalWords[0] === "cica") {
         newText.textContent = "😺";
     } else {
-        displayText = finalWords.join(" ") || "Írj a kód után valamit";
+        displayText = finalWords.join(" ") || "Formázott szöveg";
         newText.textContent = displayText;
     }
 
