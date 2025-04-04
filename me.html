@@ -1,136 +1,277 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rólam...</title>
-    <style>
-        body {
-            margin: 0;
-            background-color: black;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            position: relative;
-        }
-        
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        .progress-container {
-            width: 300px;
-            height: 50px;
-            border: 2px solid gray;
-            background-color: rgba(255, 255, 255, 0.1);
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-        .progress-bar {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0;
-            background-color: rgba(204, 204, 204, 0.233);
-        }
-        .title {
-            position: absolute;
-            top: 420px;
-            color: rgba(179, 179, 179, 0.637);
-            font-size: 24px;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rólam Chatbot</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .progress-container {
+      width: 300px;
+      height: 50px;
+      border: 2px solid gray;
+      background-color: rgba(255, 255, 255, 0.1);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .progress-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 0;
+      background-color: rgba(204, 204, 204, 0.233);
+    }
+
+    #chatInterface {
+      display: none;
+      flex-direction: column;
+      height: 100vh;
+      padding: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    #chatBox {
+      flex-grow: 1;
+      overflow-y: auto;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      scrollbar-width: thin;
+    }
+
+    #chatBox div {
+      margin: 10px 0;
+      padding: 12px 18px;
+      border-radius: 16px;
+      max-width: 80%;
+      line-height: 1.4;
+    }
+
+    .user {
+      align-self: flex-end;
+      background-color: rgba(0, 132, 255, 0.2);
+    }
+
+    .bot {
+      align-self: flex-start;
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    #userInput {
+      padding: 15px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      width: 100%;
+      outline: none;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .title {
+      position: absolute;
+      top: 420px;
+      color: rgba(179, 179, 179, 0.637);
+      font-size: 24px;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-    <canvas id="backgroundCanvas"></canvas>
-    <div class="title">Rólam...</div>
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-        <span id="progressText">0%</span>
-    </div>
-    <script>
-        const canvas = document.getElementById("backgroundCanvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+  <canvas id="backgroundCanvas"></canvas>
 
-        let lines = [];
-        const lineCount = 50;
+  <div class="progress-container" id="loader">
+    <div class="progress-bar" id="progressBar"></div>
+    <span id="progressText">0%</span>
+  </div>
 
-        for (let i = 0; i < lineCount; i++) {
-            lines.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                length: Math.random() * 100 + 50,
-                angle: Math.random() * Math.PI * 2,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5,
-                rotationSpeed: (Math.random() - 0.5) * 0.005
-            });
+  <div class="title" id="titleText">RólamChatBot (Beta)</div>
+
+  <div id="chatInterface">
+    <div id="chatBox"></div>
+    <input type="text" id="userInput" placeholder="Írj nekem valamit és válaszolok...">
+  </div>
+
+  <script>
+    // Háttér animáció
+    const canvas = document.getElementById("backgroundCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let lines = [];
+    const lineCount = 50;
+
+    for (let i = 0; i < lineCount; i++) {
+      lines.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        length: Math.random() * 100 + 50,
+        angle: Math.random() * Math.PI * 2,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: (Math.random() - 0.5) * 0.5,
+        rotationSpeed: (Math.random() - 0.5) * 0.005
+      });
+    }
+
+    function drawLines() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+
+      lines.forEach(line => {
+        ctx.save();
+        ctx.translate(line.x, line.y);
+        ctx.rotate(line.angle);
+
+        ctx.beginPath();
+        ctx.moveTo(-line.length / 2, 0);
+        ctx.lineTo(line.length / 2, 0);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(-line.length / 2, 0, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(line.length / 2, 0, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+
+        line.x += line.speedX;
+        line.y += line.speedY;
+        line.angle += line.rotationSpeed;
+
+        if (line.x < 0 || line.x > canvas.width || line.y < 0 || line.y > canvas.height) {
+          line.x = Math.random() * canvas.width;
+          line.y = Math.random() * canvas.height;
         }
+      });
 
-        function drawLines() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+      requestAnimationFrame(drawLines);
+    }
 
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
-            ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+    drawLines();
 
-            lines.forEach(line => {
-                ctx.save();
-                ctx.translate(line.x, line.y);
-                ctx.rotate(line.angle);
+    // Betöltés progress bar
+    let progress = 0;
+    function updateProgress() {
+      if (progress <= 100) {
+        document.getElementById("progressBar").style.width = progress + "%";
+        document.getElementById("progressText").textContent = progress + "%";
+        progress++;
+        setTimeout(updateProgress, 50);
+      } else {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("titleText").style.display = "none";
+        document.getElementById("chatInterface").style.display = "flex";
+      }
+    }
+    updateProgress();
 
-                ctx.beginPath();
-                ctx.moveTo(-line.length / 2, 0);
-                ctx.lineTo(line.length / 2, 0);
-                ctx.stroke();
+    // Dummy chatbot válasz
+    function chatbotResponse(input) {
+      const lower = input.toLowerCase();
+      if (lower.includes("ki vagy")) return "Egy személyes chatbot vagyok, akit László Huba hozott létre! 😊";
+      if (lower.includes("mit csinálsz")) return "Beszélgetek veled és bemutatkozom. 💬";
+      if (lower.includes("ital")) return "Zero Coke";
+      if (lower.includes("szia")) return "Szia, itt kérdéseket tehetsz fel az alkotómról!";
+      if (lower.includes("alkotó")) return "László Huba!";
+      if (lower.includes("alkotott")) return "László Huba!";
+      if (lower.includes("hány éves?")) return "17 éves!";
+      if (lower.includes("neve")) return "László Huba";
+      if (lower.includes("instagram")) return "@laszlo.huba az instagram felhasználóneve";
+      if (lower.includes("telefonszám")) return "Az alkotóm telefonszámát eléred a contact oldalon!";
+      if (lower.includes("lakik")) return "Százhalombattán";
+      if (lower.includes("suli")) return "Huba a BGéSZC Mechatronikai technikumba jár!";
+      if (lower.includes("szuper")) return "Igen, az!";
+      if (lower.includes("hogy vagy")) return "Jól köszönöm a kérdésed!";
+      if (lower.includes("étel")) return "Lidl-s Diavolo Pizza";
+      if (lower.includes("cica")) return "<3";
+      if (lower.includes("050925")) return "Ez a titkos kód! Honnan tudtad? Hívj fel +36309363898";
+      if (lower.includes("célod")) return "Hogy segítsek megismerni Hubát jobban!";
+      return "Ezt még nem tudom értelmezni, még fejlesztés alatt állok! 🤔";
+    }
 
-                ctx.beginPath();
-                ctx.arc(-line.length / 2, 0, 3, 0, Math.PI * 2);
-                ctx.fill();
+    // Gépelési animáció
+    function typeText(element, text, i) {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        setTimeout(() => typeText(element, text, i + 1), 25);
+      }
+    }
 
-                ctx.beginPath();
-                ctx.arc(line.length / 2, 0, 3, 0, Math.PI * 2);
-                ctx.fill();
+    document.getElementById("userInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        const input = e.target.value.trim();
+        if (input === "") return;
 
-                ctx.restore();
+        const chatBox = document.getElementById("chatBox");
 
-                line.x += line.speedX;
-                line.y += line.speedY;
-                line.angle += line.rotationSpeed;
+        const userMsg = document.createElement("div");
+        userMsg.className = "user";
+        userMsg.textContent = "👤 " + input;
+        chatBox.appendChild(userMsg);
 
-                if (line.x < 0 || line.x > canvas.width || line.y < 0 || line.y > canvas.height) {
-                    line.x = Math.random() * canvas.width;
-                    line.y = Math.random() * canvas.height;
-                }
-            });
+        const typingMsg = document.createElement("div");
+        typingMsg.className = "bot";
+        typingMsg.textContent = "🤖 Gépel...";
+        chatBox.appendChild(typingMsg);
 
-            requestAnimationFrame(drawLines);
-        }
+        e.target.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
 
-        drawLines();
+        let dotCount = 0;
+        let typingInterval = setInterval(() => {
+          dotCount = (dotCount + 1) % 4;
+          typingMsg.textContent = "🤖 Gépel" + ".".repeat(dotCount);
+        }, 400);
 
-        let progress = 0;
-        function updateProgress() {
-            if (progress <= 75) {
-                document.getElementById("progressBar").style.width = progress + "%";
-                document.getElementById("progressText").textContent = progress + "%";
-                progress++;
-                setTimeout(updateProgress, 50);
-            }
-        }
-        updateProgress();
-    </script>
+        setTimeout(() => {
+          clearInterval(typingInterval);
+          const response = chatbotResponse(input);
+          typingMsg.textContent = "🤖 ";
+          typeText(typingMsg, response, 0);
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }, 1500);
+      }
+    });
+  </script>
 </body>
 </html>
