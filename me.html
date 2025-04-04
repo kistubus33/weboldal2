@@ -159,7 +159,7 @@
         height: 80px;
         border-radius: 50%;
         margin: 10px 0;
-        border: 2px solid white;
+        border: 2px solid rgb(211, 211, 211);
     }
 
     .flip-card-back {
@@ -170,7 +170,6 @@
         transform: rotateY(180deg);
     }
 
-    /* Shimmer csillogás effekt */
     @keyframes shimmer {
         0% {
             background-position: -300px 0;
@@ -184,7 +183,7 @@
         background: linear-gradient(
             120deg,
             #000000 25%,
-            #000000 50%,
+            #42424273 50%,
             #000000 75%
         );
         background-size: 400% 100%;
@@ -210,7 +209,7 @@
           <div class="flip-card-front">
             <h3>László Huba</h3>
             <img src="https://scontent-vie1-1.xx.fbcdn.net/v/t39.30808-1/421803834_1074944206989619_3603369791429061534_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=103&ccb=1-7&_nc_sid=e99d92&_nc_ohc=q6N4FBl3AgIQ7kNvwHkW2Gz&_nc_oc=Adln3ozovqvF41gzzE5XAoxD7qlb9pUAtdSV6rvbN2ciSBocGk0xAuJbLpxMnC4JBtc&_nc_zt=24&_nc_ht=scontent-vie1-1.xx&_nc_gid=2vq1NtrHe1vuRl4cZet8dw&oh=00_AYHLXJ3qBfK_A2wjvvOXJoDrtdHnZltIzGf7ImkFR0P4WQ&oe=67F60B1B" alt="Profilkép">
-            <p>Diák | Fejlesztő</p>
+            <p>Diák | Fejlesztő | Állat Barát</p>
           </div>
           <div class="flip-card-back">
             <p><strong>Email:</strong> hubalaszlo5@gmail.com</p>
@@ -305,6 +304,18 @@
         document.getElementById("chatInterface").style.display = "flex";
       }
     }
+
+    setTimeout(() => {
+        const chatBox = document.getElementById("chatBox");
+        const botMsg = document.createElement("div");
+        botMsg.className = "bot";
+        botMsg.textContent = "🤖 ";
+        chatBox.appendChild(botMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        typeText(botMsg, "Szia! Jelenleg tesztelés és fejlesztés alatt állok, így elképzelhető hogy egyes kérdesekre nem tudok választ adni! Jó szórakozást :)", 0);
+        }, 800);
+
+
     updateProgress();
     // Dummy chatbot válasz
     function chatbotResponse(input) {
@@ -312,7 +323,7 @@
       if (lower.includes("ki vagy")) return "Egy személyes chatbot vagyok, akit László Huba hozott létre! 😊";
       if (lower.includes("mit csinálsz")) return "Beszélgetek veled és bemutatkozom. 💬";
       if (lower.includes("ital")) return "Zero Coke";
-      if (lower.includes("szia")) return "Szia, itt kérdéseket tehetsz fel az alkotómról!";
+      if (lower.includes("szia")) return "Szia, itt kérdéseket tehetsz fel az alkotómról! Mit szeretnél tudni?";
       if (lower.includes("alkotó")) return "László Huba!";
       if (lower.includes("alkotott")) return "László Huba!";
       if (lower.includes("hány éves?")) return "17 éves!";
@@ -327,11 +338,11 @@
       if (lower.includes("cica")) return "<3";
       if (lower.includes("050925")) return "Ez a titkos kód! Honnan tudtad? Hívj fel +36309363898";
       if (lower.includes("célod")) return "Hogy segítsek megismerni Hubát jobban!";
-      if (lower.includes("projekt")) return "Jelenleg a weboldal2. projekten dolgozom, ezen kívül csak egy titkos projekten";
+      if (lower.includes("projekt")) return "Jelenleg a weboldal2. projekten dolgozom, ezen kívül csak egy titkos projektem van";
       if (lower.includes("vicc")) return "vicces vicc";
-      if (lower.includes("")) return "";
-      if (lower.includes("")) return "";
-      if (lower.includes("")) return "";
+      if (lower.includes("veled beszélgetni")) return "Köszönöm!";
+      if (lower.includes("állat")) return "Macska";
+      if (lower.includes("ki ő")) return "Diák, fejlesztő, állat barát, szomszéd, kedves span, szerető, hivatásos buszozó, hű padavan, sakk mester, kalapos király, kritikus, playboy, a leendő Vasember...";
       if (lower.includes("")) return "";
       if (lower.includes("")) return "";
       return "Ezt még nem tudom értelmezni, még fejlesztés alatt állok! 🤔";
