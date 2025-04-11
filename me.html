@@ -517,10 +517,10 @@
   let devMode = false;  // A developer mód alapértelmezett értéke hamis
 
 function handleCommand(input) {
-  const text = input.trim().toLowerCase();  // Az input kisbetűssé alakítása
+  const userInput = input.trim().toLowerCase();  // Az input kisbetűssé alakítása
 
   // Ellenőrizzük, hogy a parancs `devmode on` vagy `devmode off`
-  if (userInput === "devmode on") {
+  if (userInput === "devmodeon") {
     devMode = true;  // Bekapcsoljuk a developer módot
     const chatBox = document.getElementById("chatBox");
     const devMsg = document.createElement("div");
@@ -528,7 +528,7 @@ function handleCommand(input) {
     devMsg.textContent = "Developer Mode bekapcsolva.";
     chatBox.appendChild(devMsg);
     chatBox.scrollTop = chatBox.scrollHeight;
-  } else if (userInput === "devmode off") {
+  } else if (userInput === "devmodeoff") {
     devMode = false;  // Kikapcsoljuk a developer módot
     const chatBox = document.getElementById("chatBox");
     const devMsg = document.createElement("div");
@@ -539,7 +539,7 @@ function handleCommand(input) {
   } else if (devMode && userInput === "sendtodev") {
     sendToDev();  // A developer mód bekapcsolása után a sendtodev parancs aktiválása
   } else {
-    handleUserInput(text);  // A normál inputok kezelése
+    handleUserInput(userInput);  // A normál inputok kezelése
   }
 }
 
