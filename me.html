@@ -516,31 +516,32 @@
 
   let devMode = false;  // A developer mód alapértelmezett értéke hamis
 
-  function handleCommand(input) {
-    const text = input.trim().toLowerCase();
+function handleCommand(input) {
+  const text = input.trim().toLowerCase();  // Az input kisbetűssé alakítása
 
-    if (text === "devmode on") {
-      devMode = true;
-      const chatBox = document.getElementById("chatBox");
-      const devMsg = document.createElement("div");
-      devMsg.className = "bot";
-      devMsg.textContent = "Developer Mode bekapcsolva.";
-      chatBox.appendChild(devMsg);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    } else if (text === "devmode off") {
-      devMode = false;
-      const chatBox = document.getElementById("chatBox");
-      const devMsg = document.createElement("div");
-      devMsg.className = "bot";
-      devMsg.textContent = "Developer Mode kikapcsolva.";
-      chatBox.appendChild(devMsg);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    } else if (devMode && text === "sendtodev") {
-      sendToDev();
-    } else {
-      handleUserInput(text);
-    }
+  // Ellenőrizzük, hogy a parancs `devmode on` vagy `devmode off`
+  if (text === "devmode on") {
+    devMode = true;  // Bekapcsoljuk a developer módot
+    const chatBox = document.getElementById("chatBox");
+    const devMsg = document.createElement("div");
+    devMsg.className = "bot";
+    devMsg.textContent = "Developer Mode bekapcsolva.";
+    chatBox.appendChild(devMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  } else if (text === "devmode off") {
+    devMode = false;  // Kikapcsoljuk a developer módot
+    const chatBox = document.getElementById("chatBox");
+    const devMsg = document.createElement("div");
+    devMsg.className = "bot";
+    devMsg.textContent = "Developer Mode kikapcsolva.";
+    chatBox.appendChild(devMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  } else if (devMode && text === "sendtodev") {
+    sendToDev();  // A developer mód bekapcsolása után a sendtodev parancs aktiválása
+  } else {
+    handleUserInput(text);  // A normál inputok kezelése
   }
+}
 
       function sendToDev() {
   const content = chatLog.map(e => `${e.sender}: ${e.message}`).join("\n");
