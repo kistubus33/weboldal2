@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rólam Chatbot</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  emailjs.init("IHNzycfbjhYHJztXj");
+</script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -508,6 +513,44 @@
     document.getElementById("flipCard").addEventListener("click", () => {
         document.querySelector(".flip-card-inner").classList.toggle("flipped");
     });
+
+    let devMode = false;
+    const chatLog = [];
+
+    function handleCommand(input) {
+      const text = input.trim().toLowerCase();
+    
+      if (text === "devmode on") {
+        devMode = true;
+        addMessage("System", "Developer mode bekapcsolva.");
+      } else if (text === "devmode off") {
+        devMode = false;
+        addMessage("System", "Developer mode kikapcsolva.");
+      } else if (devMode && text === "sendtodev") {
+        sendToDev();
+      } else {
+        handleUserInput(text);
+      }
+    }
+    
+    function addMessage(sender, message) {
+      chatLog.push({ sender, message });
+    }
+    
+    function sendToDev() {
+      const content = chatLog.map(e => `${e.sender}: ${e.message}`).join("\n");
+    
+      emailjs.send("service_rq212ie", "sendtodev", {
+        to_email: "laszlohuba0123@gmail.com",
+        message: content
+      }).then(() => {
+        addMessage("System", "Elküldve a fejlesztőnek.");
+      }).catch((error) => {
+        console.error("Email küldési hiba:", error);
+        addMessage("System", "Nem sikerült elküldeni.");
+      });
+    }
+
   </script>
 </body>
 </html>
