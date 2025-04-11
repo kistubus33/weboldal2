@@ -518,7 +518,7 @@
     const chatLog = [];
 
     function handleCommand(input) {
-      const text = input.trim().toLowerCase();
+    const text = input.trim().toLowerCase();
     
       if (text === "devmode on") {
         devMode = true;
@@ -538,7 +538,7 @@
     }
     
     function sendToDev() {
-      const content = chatLog.map(e => `${e.sender}: ${e.message}`).join("\n");
+    const content = chatLog.map(e => `${e.sender}: ${e.message}`).join("\n");
     
       emailjs.send("service_rq212ie", "sendtodev", {
         to_email: "laszlohuba0123@gmail.com",
