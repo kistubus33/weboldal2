@@ -522,10 +522,10 @@
     
       if (text === "devmode on") {
         devMode = true;
-        addMessage("System", "Developer mode bekapcsolva.");
+        return ("System", "Developer mode bekapcsolva.");
       } else if (text === "devmode off") {
         devMode = false;
-        addMessage("System", "Developer mode kikapcsolva.");
+        return ("System", "Developer mode kikapcsolva.");
       } else if (devMode && text === "sendtodev") {
         sendToDev();
       } else {
@@ -544,10 +544,10 @@
         to_email: "laszlohuba0123@gmail.com",
         message: content
       }).then(() => {
-        addMessage("System", "Elküldve a fejlesztőnek.");
+        return ("System", "Elküldve a fejlesztőnek.");
       }).catch((error) => {
         console.error("Email küldési hiba:", error);
-        addMessage("System", "Nem sikerült elküldeni.");
+        return ("System", "Nem sikerült elküldeni.");
       });
     }
 
