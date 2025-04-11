@@ -424,6 +424,30 @@
           "KB",
           "AT"
         ]);
+        if (lower.includes("oké")) return randomResponse([
+          "köszi a megértést",
+          "Ha neked okés nekem is!",
+          "zsoké",
+          "Olé!"
+        ]);
+        if (lower.includes("mizu")) return randomResponse([
+          "Semmi különös, veled?",
+          "No para tesó",
+          "sennizu..",
+          "Elvagyok meg minden, te?"
+        ]);
+        if (lower.includes("én")) return randomResponse([
+          "az érdekes",
+          "nem mondod?",
+          "Elképesztő!",
+          "A mondat tartalmazza az ÉN szót... ezt csak tudom"
+        ]);
+        if (lower.includes("semmi")) return randomResponse([
+          "csak van valami",
+          "naa ne mond ezt, valami csak van!",
+          "a tököd mérete semmi",
+          "ja, vágom, ilyen ez..."
+        ]);
         if (lower.includes("ki ő")) return randomResponse([
           "Diák, fejlesztő, állatbarát, szomszéd, kedves span, szerető, hivatásos buszozó, hű padavan, sakk mester, kalapos király, kritikus, playboy, a leendő Vasember...",
           "Ő egy igazi legenda! 😎",
