@@ -514,42 +514,58 @@
         document.querySelector(".flip-card-inner").classList.toggle("flipped");
     });
 
-    let devMode = false;
-    const chatLog = [];
+  let devMode = false;  // A developer mód alapértelmezett értéke hamis
 
-    function handleCommand(input) {
+  function handleCommand(input) {
     const text = input.trim().toLowerCase();
-    
-      if (text === "devmode on") {
-        devMode = true;
-        return ("System", "Developer mode bekapcsolva.");
-      } else if (text === "devmode off") {
-        devMode = false;
-        return ("System", "Developer mode kikapcsolva.");
-      } else if (devMode && text === "sendtodev") {
-        sendToDev();
-      } else {
-        handleUserInput(text);
-      }
+
+    if (text === "devmode on") {
+      devMode = true;
+      const chatBox = document.getElementById("chatBox");
+      const devMsg = document.createElement("div");
+      devMsg.className = "bot";
+      devMsg.textContent = "Developer Mode bekapcsolva.";
+      chatBox.appendChild(devMsg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } else if (text === "devmode off") {
+      devMode = false;
+      const chatBox = document.getElementById("chatBox");
+      const devMsg = document.createElement("div");
+      devMsg.className = "bot";
+      devMsg.textContent = "Developer Mode kikapcsolva.";
+      chatBox.appendChild(devMsg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } else if (devMode && text === "sendtodev") {
+      sendToDev();
+    } else {
+      handleUserInput(text);
     }
-    
-    function addMessage(sender, message) {
-      chatLog.push({ sender, message });
-    }
-    
-    function sendToDev() {
-    const content = chatLog.map(e => `${e.sender}: ${e.message}`).join("\n");
-    
-      emailjs.send("service_rq212ie", "sendtodev", {
-        to_email: "laszlohuba0123@gmail.com",
-        message: content
-      }).then(() => {
-        return ("System", "Elküldve a fejlesztőnek.");
-      }).catch((error) => {
-        console.error("Email küldési hiba:", error);
-        return ("System", "Nem sikerült elküldeni.");
-      });
-    }
+  }
+
+      function sendToDev() {
+  const content = chatLog.map(e => `${e.sender}: ${e.message}`).join("\n");
+
+  emailjs.send("service_rq212ie", "sendtodev", {
+    to_email: "laszlohuba0123@gmail.com",  // Itt a fejlesztő e-mail címe
+    message: content
+  }).then(() => {
+    const chatBox = document.getElementById("chatBox");
+    const successMsg = document.createElement("div");
+    successMsg.className = "bot";
+    successMsg.textContent = "A chat üzenetek el lettek küldve a fejlesztőnek.";
+    chatBox.appendChild(successMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }).catch((error) => {
+    console.error("Email küldési hiba:", error);
+    const chatBox = document.getElementById("chatBox");
+    const errorMsg = document.createElement("div");
+    errorMsg.className = "bot";
+    errorMsg.textContent = "Hiba történt a fejlesztőnek küldés közben.";
+    chatBox.appendChild(errorMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+}
+
 
   </script>
 </body>
