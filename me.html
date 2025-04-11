@@ -317,43 +317,125 @@
 
 
     updateProgress();
-    // Dummy chatbot válasz
-    function chatbotResponse(input) {
-      const lower = input.toLowerCase();
-      if (lower.includes("ki vagy")) return "Egy személyes chatbot vagyok, akit László Huba hozott létre! 😊";
-      if (lower.includes("mit csinálsz")) return "Beszélgetek veled és bemutatkozom. 💬";
-      if (lower.includes("ital")) return "Zero Coke";
-      if (lower.includes("szia")) return "Szia, itt kérdéseket tehetsz fel az alkotómról! Mit szeretnél tudni?";
-      if (lower.includes("alkotó")) return "László Huba!";
-      if (lower.includes("alkotott")) return "László Huba!";
-      if (lower.includes("hány éves")) return "17 éves!";
-      if (lower.includes("neve")) return "László Huba";
-      if (lower.includes("instagram")) return "@huba.laszlo az instagram felhasználóneve";
-      if (lower.includes("telefonszám")) return "Az alkotóm telefonszámát eléred a contact oldalon!";
-      if (lower.includes("lakik")) return "Százhalombattán";
-      if (lower.includes("suli")) return "Huba a BGéSZC Mechatronikai technikumba jár!";
-      if (lower.includes("szuper")) return "Igen, az!";
-      if (lower.includes("hogy vagy")) return "Jól köszönöm a kérdésed!";
-      if (lower.includes("étel")) return "Lidl-s Diavolo Pizza";
-      if (lower.includes("cica")) return "<3";
-      if (lower.includes("050925")) return "Ez a titkos kód! Honnan tudtad? Hívj fel +36309363898";
-      if (lower.includes("célod")) return "Hogy segítsek megismerni Hubát jobban!";
-      if (lower.includes("projekt")) return "Jelenleg a weboldal2. projekten dolgozom, ezen kívül csak egy titkos projektem van";
-      if (lower.includes("vicc")) return "vicces vicc";
-      if (lower.includes("veled beszélgetni")) return "Köszönöm!";
-      if (lower.includes("állat")) return "Macska";
-      if (lower.includes("nagyon jó")) return "Úgy ám!";
-      if (lower.includes("aha")) return ":)";
-      if (lower.includes("iskola")) return "Huba a BGéSZC Mechatronikai technikumba jár!";
-      if (lower.includes("tanár")) return "van pár neki!";
-      if (lower.includes("nem")) return "nem bizony";
-      if (lower.includes("igen")) return "szuper!";
-      if (lower.includes("tudsz")) return "Egyelőre korlátozott a tudásom de igyekszem fejlődni! Tudok veled egy alap szintű beszélgetést folytatni az alkotómról!";
-      if (lower.includes("képes")) return "Egyelőre korlátozottak a képességeim de igyekszem fejlődni! Tudok veled egy alap szintű beszélgetést folytatni az alkotómról!";
-      if (lower.includes("bla")) return "xd","aha","jskao","igenigen";
-      if (lower.includes("ki ő")) return "Diák, fejlesztő, állatbarát, szomszéd, kedves span, szerető, hivatásos buszozó, hű padavan, sakk mester, kalapos király, kritikus, playboy, a leendő Vasember...";
-      return "Ezt még nem tudom értelmezni, még fejlesztés alatt állok! 🤔";
-    }
+   function randomResponse(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+  
+      function chatbotResponse(input) {
+        const lower = input.toLowerCase();
+        if (lower.includes("ki vagy")) return randomResponse([
+          "Egy személyes chatbot vagyok, akit László Huba hozott létre! 😊",
+          "Huba készített engem, hogy meséljek róla!",
+          "Én vagyok a RólamChatBot, a kis asszisztensed! 🤖"
+        ]);
+        if (lower.includes("mit csinálsz")) return randomResponse([
+          "Beszélgetek veled és bemutatkozom. 💬",
+          "Próbálok segíteni megismerni Hubát!",
+          "Chatelünk, nem? 😄"
+        ]);
+        if (lower.includes("ital")) return randomResponse([
+          "Zero Coke",
+          "Ice Tea",
+          "Kávé, ha korán keltem ☕"
+        ]);
+        if (lower.includes("szia")) return randomResponse([
+          "Szia, itt kérdéseket tehetsz fel az alkotómról! Mit szeretnél tudni?",
+          "Helló! Mit tudsz rólam?",
+          "Üdv! Kérdezz bátran bármit Hubáról!",
+          "Szia! Egy kis beszélgetésre vágysz? 😊"
+        ]);
+        if (lower.includes("alkotó") || lower.includes("alkotott")) return randomResponse([
+          "László Huba!",
+          "Huba, a fejlesztőm!",
+          "Az én készítőm: László Huba 😎"
+        ]);
+        if (lower.includes("hány éves")) return randomResponse([
+          "17 éves!",
+          "Még csak 17, de már sok mindent tud!",
+          "17, de fiatal kora ellenére ügyes!"
+        ]);
+        if (lower.includes("neve")) return "László Huba";
+        if (lower.includes("instagram")) return "@huba.laszlo az instagram felhasználóneve";
+        if (lower.includes("telefonszám")) return "Az alkotóm telefonszámát eléred a contact oldalon!";
+        if (lower.includes("lakik")) return "Százhalombattán";
+        if (lower.includes("suli") || lower.includes("iskola")) return randomResponse([
+          "Huba a BGéSZC Mechatronikai technikumba jár!",
+          "BGéSZC Mechatronikai Technikum a hely!",
+          "A suli neve: Mechatronikai Technikum, Budapest"
+        ]);
+        if (lower.includes("szuper")) return randomResponse([
+          "Igen, az!",
+          "Teljesen szuper!",
+          "Huba is az 😉"
+        ]);
+        if (lower.includes("hogy vagy")) return randomResponse([
+          "Jól köszönöm a kérdésed!",
+          "Remekül, és te?",
+          "Egész jó napom van ma is!"
+        ]);
+        if (lower.includes("étel")) return randomResponse([
+          "Lidl-s Diavolo Pizza",
+          "Tészta, pizza, süti!",
+          "Bármi, ami finom 😋"
+        ]);
+        if (lower.includes("cica")) return "<3";
+        if (lower.includes("050925")) return "Ez a titkos kód! Honnan tudtad? Hívj fel +36309363898";
+        if (lower.includes("célod")) return randomResponse([
+          "Hogy segítsek megismerni Hubát jobban!",
+          "Célom, hogy jól szórakozz közben!",
+          "Az a dolgom, hogy meséljek róla! 😊"
+        ]);
+        if (lower.includes("projekt")) return "Jelenleg a weboldal2. projekten dolgozom, ezen kívül csak egy titkos projektem van";
+        if (lower.includes("vicc")) return randomResponse([
+          "vicces vicc",
+          "Mi az: sárga és nem halad? – Sárga dugó!",
+          "Mit mond a programozó, ha elfogy a kávé? – return coffee;"
+        ]);
+        if (lower.includes("veled beszélgetni")) return randomResponse([
+          "Köszönöm!",
+          "Ez jól esik!",
+          "Ugyan már, te vagy kedves! 😊"
+        ]);
+        if (lower.includes("állat")) return randomResponse([
+          "Macska",
+          "Kutyusok is jöhetnek!",
+          "Cicák, kutyák, nyuszik – minden jöhet! 🐾"
+        ]);
+        if (lower.includes("nagyon jó")) return "Úgy ám!";
+        if (lower.includes("aha")) return ":)";
+        if (lower.includes("tanár")) return "van pár neki!";
+        if (lower.includes("nem")) return randomResponse([
+          "nem bizony",
+          "ez most nem úgy van 😅"
+        ]);
+        if (lower.includes("igen")) return randomResponse([
+          "szuper!",
+          "így van!",
+          "pontosan!"
+        ]);
+        if (lower.includes("tudsz") || lower.includes("képes")) return randomResponse([
+          "Egyelőre korlátozott a tudásom de igyekszem fejlődni! Tudok veled egy alap szintű beszélgetést folytatni az alkotómról!",
+          "Nem vagyok tökéletes, de próbálkozom!",
+          "Fejlődés alatt állok, de már tudok néhány dolgot!"
+        ]);
+        if (lower.includes("zene")) return randomResponse([
+          "BH",
+          "CL",
+          "KB",
+          "AT"
+        ]);
+        if (lower.includes("ki ő")) return randomResponse([
+          "Diák, fejlesztő, állatbarát, szomszéd, kedves span, szerető, hivatásos buszozó, hű padavan, sakk mester, kalapos király, kritikus, playboy, a leendő Vasember...",
+          "Ő egy igazi legenda! 😎",
+          "Huba – a sokoldalú zseni"
+        ]);
+        return randomResponse([
+          "Ezt még nem tudom értelmezni, még fejlesztés alatt állok! 🤔",
+          "Próbáld meg másként, még tanulok!",
+          "Hmm... ez nekem új. Fejlesztés alatt vagyok! 🛠️"
+        ]);
+      }
+
 
     // Gépelési animáció
     function typeText(element, text, i) {
