@@ -230,6 +230,9 @@
   
 
   <script>
+    let devMode = false;
+
+    
     // Háttér animáció
     const canvas = document.getElementById("backgroundCanvas");
     const ctx = canvas.getContext("2d");
@@ -471,32 +474,78 @@
       }
     }
 
-    document.getElementById("userInput").addEventListener("keypress", function (e) {
+      document.getElementById("userInput").addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
         const input = e.target.value.trim();
         if (input === "") return;
-
+    
         const chatBox = document.getElementById("chatBox");
-
+    
         const userMsg = document.createElement("div");
         userMsg.className = "user";
         userMsg.textContent = "👤 " + input;
         chatBox.appendChild(userMsg);
-
+        chatBox.scrollTop = chatBox.scrollHeight;
+    
+        // DevMode parancsok ellenőrzése
+        if (input === "/devmode on") {
+          devMode = true;
+          const devMsg = document.createElement("div");
+          devMsg.className = "bot";
+          devMsg.textContent = "🤖 DevMode bekapcsolva!";
+          chatBox.appendChild(devMsg);
+          return;
+        }
+    
+        if (input === "/devmode off") {
+          devMode = false;
+          const devMsg = document.createElement("div");
+          devMsg.className = "bot";
+          devMsg.textContent = "🤖 DevMode kikapcsolva!";
+          chatBox.appendChild(devMsg);
+          return;
+        }
+    
+        if (input === "/sendtodev") {
+          if (!devMode) {
+            const errorMsg = document.createElement("div");
+            errorMsg.className = "bot";
+            errorMsg.textContent = "🤖 Ehhez be kell kapcsolni a DevMode-ot!";
+            chatBox.appendChild(errorMsg);
+            return;
+          }
+    
+          // Összegyűjtjük a beszélgetést
+          let conversation = "";
+          document.querySelectorAll("#chatBox div").forEach(div => {
+            conversation += div.textContent + "\n";
+          });
+    
+          // Email küldés mailto-val
+          const mailtoLink = `mailto:hubalaszlo5@gmail.com?subject=ChatBot beszélgetés&body=${encodeURIComponent(conversation)}`;
+          window.location.href = mailtoLink;
+    
+          const confirmMsg = document.createElement("div");
+          confirmMsg.className = "bot";
+          confirmMsg.textContent = "🤖 Beszélgetés elküldve a fejlesztőnek!";
+          chatBox.appendChild(confirmMsg);
+    
+          return;
+        }
+    
+        // Ha nem Dev parancs, megy a gépelés animáció
         const typingMsg = document.createElement("div");
         typingMsg.className = "bot";
         typingMsg.textContent = "🤖 Gépel...";
         chatBox.appendChild(typingMsg);
-
-        e.target.value = "";
         chatBox.scrollTop = chatBox.scrollHeight;
-
+    
         let dotCount = 0;
         let typingInterval = setInterval(() => {
           dotCount = (dotCount + 1) % 4;
           typingMsg.textContent = "🤖 Gépel" + ".".repeat(dotCount);
         }, 400);
-
+    
         setTimeout(() => {
           clearInterval(typingInterval);
           const response = chatbotResponse(input);
@@ -504,6 +553,8 @@
           typeText(typingMsg, response, 0);
           chatBox.scrollTop = chatBox.scrollHeight;
         }, 1500);
+    
+        e.target.value = "";
       }
     });
 
