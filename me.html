@@ -192,10 +192,204 @@
         animation: shimmer 3s infinite;
     }
 
+    #loginButton {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 9999;
+      transition: background-color 0.3s, color 0.3s;
+    } 
+
+    #loginButton:hover {
+      background-color: #ddd;
+      color: #000;
+    } 
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #313131;
+      color: rgb(255, 255, 255);
+      padding: 30px;
+      border-radius: 16px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+      position: relative;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ffffff;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .modal-content button {
+      background-color: rgb(27, 27, 27);
+      color: rgb(255, 255, 255);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background-color: #333;
+    }
+
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    #userDropdown button {
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #userDropdown button:hover {
+      background-color: #eee;
+    }
+
+    #loginButton {
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #loginButton.admin {
+      background: transparent;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-block;
+      border: 1px solid #3a3a3a;
+      background-color: #111;
+    }
+
+    #loginButton.admin:hover {
+      background-color: #1e1e1e;
+      color: #ddd;
+    }
+
+
+    #dropdownMenu {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 10px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 10000;
+    }
+
+    #logoutButton {
+      background: linear-gradient(145deg, #1f1f1f, #292929);
+      border: 1px solid #3a3a3a;
+      color: rgb(255, 255, 255);
+      padding: 12px 24px;
+      margin: 5px 10px;
+      width: calc(100% - 20px);
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    #logoutButton:hover {
+      background: linear-gradient(145deg, #ff3c3c, #ff2020);
+      border-color: #ff3c3c;
+      color: rgb(255, 255, 255);
+      transform: scale(1.03);
+    }
+
+
   </style>
 </head>
 <body>
   <canvas id="backgroundCanvas"></canvas>
+  <div id="alertBox" style="
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #222;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    z-index: 10001;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: none;
+    transition: all 0.3s ease;
+    opacity: 0;
+  "></div>
+
+  <div id="userDropdown" style="position: absolute; top: 20px; right: 20px; z-index: 9999;">
+    <button id="loginButton">Bejelentkezés</button>
+    <div id="dropdownMenu" style="display: none;">
+      <button id="logoutButton">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" fill="white">
+        <path d="M0 0h24v24H0z" fill="none"/>
+        <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.1 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+      </svg>
+      Kijelentkezés
+    </button>
+    </div>
+  </div>
 
   <div class="progress-container" id="loader">
     <div class="progress-bar" id="progressBar"></div>
@@ -227,9 +421,47 @@
       <input type="text" id="userInput" placeholder="Írj nekem valamit és válaszolok...">
     </div>
   </div>
+
+    <div id="loginModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Bejelentkezés</h2>
+      <input type="text" id="username" placeholder="Felhasználónév">
+      <input type="password" id="password" placeholder="Jelszó">
+      <button id="submitLogin">Bejelentkezés</button>
+      <p style="margin-top: 10px; color: white;">
+      Nincs fiókod? <span id="openRegister" style="color: #00aaff; cursor: pointer;">Regisztrálj!</span>
+</p>
+    </div>
+  </div>
+  <div id="registerModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-register">&times;</span>
+      <h2>Regisztráció</h2>
+      <input type="text" id="regUsername" placeholder="Új felhasználónév">
+      <input type="password" id="regPassword" placeholder="Új jelszó">
+      <button id="submitRegister">Regisztrálok</button>
+    </div>
+  </div>
+
   
 
   <script>
+    function showAlert(message, color = "#222") {
+    const alertBox = document.getElementById("alertBox");
+      alertBox.textContent = message;
+      alertBox.style.backgroundColor = color;
+      alertBox.style.display = "block";
+      alertBox.style.opacity = "1";
+
+      setTimeout(() => {
+        alertBox.style.opacity = "0";
+        setTimeout(() => {
+          alertBox.style.display = "none";
+        }, 300);
+      }, 2500); // 2.5 másodpercig látszik
+    }
+
     let devMode = false;
 
     
@@ -307,6 +539,7 @@
         document.getElementById("loader").style.display = "none";
         document.getElementById("titleText").style.display = "none";
         document.getElementById("chatInterface").style.display = "flex";
+        document.getElementById("loginButton").style.display = "block";
       }
     }
 
@@ -322,7 +555,7 @@
 
 
     updateProgress();
-   function randomResponse(arr) {
+  function randomResponse(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
   
@@ -365,7 +598,7 @@
         if (lower.includes("lakik")) return "Százhalombattán";
         if (lower.includes("suli") || lower.includes("iskola")) return randomResponse([
           "Huba a BGéSZC Mechatronikai technikumba jár!",
-          "BGéSZC Mechatronikai Technikum a hely!",
+          "BGéSZC Mechatronikai Technikum a suli neve!",
           "A suli neve: Mechatronikai Technikum, Budapest"
         ]);
         if (lower.includes("szuper")) return randomResponse([
@@ -485,6 +718,20 @@
         ]);
       }
 
+      window.addEventListener("load", () => {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const loginBtn = document.getElementById("loginButton");
+
+      if (isLoggedIn) {
+        loginBtn.textContent = "Admin";
+        loginBtn.classList.add("admin");
+      } else {
+        loginBtn.textContent = "Bejelentkezés";
+        loginBtn.classList.remove("admin");
+      }
+    });
+
+
 
     // Gépelési animáció
       function typeText(element, text, i) {
@@ -580,6 +827,116 @@
         document.querySelector(".flip-card-inner").classList.toggle("flipped");
     });
 
+    const loginBtn = document.getElementById("loginButton");
+    const loginModal = document.getElementById("loginModal");
+    const closeBtn = document.querySelector(".close");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const logoutBtn = document.getElementById("logoutButton");
+
+    // Gomb megnyitja a login ablakot (ha nem bejelentkezve vagyunk)
+    loginBtn.addEventListener("click", () => {
+      if (loginBtn.textContent === "Bejelentkezés") {
+        loginModal.style.display = "flex";
+      } else {
+        // ha már bejelentkezett, akkor lenyitja a menüt
+        dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
+      }
+    });
+
+    // Bezárás (X gombbal)
+    closeBtn.addEventListener("click", () => {
+      loginModal.style.display = "none";
+    });
+
+    // Belépés
+    document.getElementById("submitLogin").addEventListener("click", () => {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (username === "" || password === "") {
+        showAlert("Kérlek töltsd ki a mezőket!", "#e74c3c");
+        return;
+      }
+
+      // Beépített admin fiók
+      if (username === "admin" && password === "korte") {
+        showAlert("Üdv Admin!", "#2ecc71");
+        loginModal.style.display = "none";
+        localStorage.setItem("isLoggedIn", "true");
+        loginBtn.textContent = "Admin";
+        loginBtn.classList.add("admin");
+      } else {
+        // Regisztrált felhasználók ellenőrzése
+        const storedPass = localStorage.getItem(`user_${username}`);
+        if (storedPass && storedPass === password) {
+          showAlert("Sikeres bejelentkezés!", "#2ecc71");
+          loginModal.style.display = "none";
+          localStorage.setItem("isLoggedIn", "true");
+          loginBtn.textContent = username;
+          loginBtn.classList.remove("admin");
+        } else {
+          showAlert("Hibás felhasználónév vagy jelszó!", "#e74c3c");
+        }
+      }
+    });
+
+
+    // Kijelentkezés
+    logoutBtn.addEventListener("click", () => {
+    loginBtn.textContent = "Bejelentkezés";
+    loginBtn.classList.remove("admin");
+    dropdownMenu.style.display = "none";
+
+    // 🌟 Állapot törlése
+    localStorage.removeItem("isLoggedIn");
+
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+
+    showAlert("Sikeres kijelentkezés!", "#2ecc71");
+    });
+
+    // ESC bezárás a modalt
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        loginModal.style.display = "none";
+        dropdownMenu.style.display = "none";
+      }
+    });
+    const registerModal = document.getElementById("registerModal");
+    const openRegister = document.getElementById("openRegister");
+    const closeRegisterBtn = document.querySelector(".close-register");
+
+    // Regisztrációs modal nyitása
+    openRegister.addEventListener("click", () => {
+      loginModal.style.display = "none";
+      registerModal.style.display = "flex";
+    });
+
+    // Bezárás
+    closeRegisterBtn.addEventListener("click", () => {
+      registerModal.style.display = "none";
+    });
+
+    // Regisztráció gomb esemény
+    document.getElementById("submitRegister").addEventListener("click", () => {
+      const regUsername = document.getElementById("regUsername").value.trim();
+      const regPassword = document.getElementById("regPassword").value.trim();
+
+      if (regUsername === "" || regPassword === "") {
+        showAlert("Kérlek töltsd ki a mezőket!", "#e74c3c");
+        return;
+      }
+
+      // Elmentjük a felhasználót localStorage-ba
+      localStorage.setItem(`user_${regUsername}`, regPassword);
+      alert("Sikeres regisztráció! Most már be tudsz jelentkezni.");
+
+      registerModal.style.display = "none";
+      loginModal.style.display = "flex";
+    });
+
+        
 
   </script>
 </body>
