@@ -716,6 +716,13 @@
           "Próbáld meg másként, még tanulok!",
           "Hmm... ez nekem új. Fejlesztés alatt vagyok! 🛠️"
         ]);
+        if (lower.includes("idő") || lower.includes("óra") || lower.includes("mennyi az idő")) {
+          const now = new Date();
+          const hours = now.getHours().toString().padStart(2, "0");
+          const minutes = now.getMinutes().toString().padStart(2, "0");
+          return `Most ${hours}:${minutes} van. 🕒`;
+        }
+
       }
 
     window.addEventListener("load", () => {
