@@ -718,18 +718,24 @@
         ]);
       }
 
-      window.addEventListener("load", () => {
+    window.addEventListener("load", () => {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const loggedInUser = localStorage.getItem("loggedInUser");
       const loginBtn = document.getElementById("loginButton");
 
-      if (isLoggedIn) {
-        loginBtn.textContent = "Admin";
-        loginBtn.classList.add("admin");
+      if (isLoggedIn && loggedInUser) {
+        loginBtn.textContent = loggedInUser;
+        if (loggedInUser === "admin") {
+          loginBtn.classList.add("admin");
+        } else {
+          loginBtn.classList.remove("admin");
+        }
       } else {
         loginBtn.textContent = "Bejelentkezés";
         loginBtn.classList.remove("admin");
       }
     });
+
 
 
 
@@ -883,18 +889,19 @@
 
     // Kijelentkezés
     logoutBtn.addEventListener("click", () => {
-    loginBtn.textContent = "Bejelentkezés";
-    loginBtn.classList.remove("admin");
-    dropdownMenu.style.display = "none";
+      loginBtn.textContent = "Bejelentkezés";
+      loginBtn.classList.remove("admin");
+      dropdownMenu.style.display = "none";
 
-    // 🌟 Állapot törlése
-    localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("loggedInUser");
 
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
 
-    showAlert("Sikeres kijelentkezés!", "#2ecc71");
+      showAlert("Sikeres kijelentkezés!", "#2ecc71");
     });
+
 
     // ESC bezárás a modalt
     window.addEventListener("keydown", (e) => {
@@ -930,7 +937,7 @@
 
       // Elmentjük a felhasználót localStorage-ba
       localStorage.setItem(`user_${regUsername}`, regPassword);
-      alert("Sikeres regisztráció! Most már be tudsz jelentkezni.");
+      showAlert("Sikeres regisztráció! Most már be tudsz jelentkezni.", "#2ecc71");
 
       registerModal.style.display = "none";
       loginModal.style.display = "flex";
