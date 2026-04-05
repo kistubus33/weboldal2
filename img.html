@@ -3,203 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Képek</title>
+    <title>Élő Goose Goose Duck</title>
     <style>
+        /* Alapbeállítások */
         body {
-            background-color: #121212;
-            color: #b0b0b0;
-            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
-            margin: 0;
-            padding-top: 60px;
-            position: relative;
+            color: #333;
         }
 
-
-
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background-color: #121212;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 40px;
-            z-index: 4;
-        }
-
-        .header-title {
+        /* Főcím */
+        h1 {
             font-size: 3rem;
-            font-weight: bold;
-            color: rgba(255, 255, 255, 0.1);
-            font-family: monospace;
-            position: fixed;
-            top: 10px;
-            left: 55%;
-            transform: translateX(-50%);
-            opacity: 0;
-            animation: fadeIn 3s ease-in-out forwards;
-            z-index: 5;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateX(-50%) scale(0.8); }
-            100% { opacity: 1; transform: translateX(-50%) scale(1); }
+        /* Szabályzat doboz */
+        .rules-container {
+            background: white;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 50px;
+            border-left: 8px solid #ffb3ba;
         }
 
-        .sidebar-trigger {
-            width: 10px;
-            height: 30px;
-            background-color: #b0b0b0;
-            border-radius: 5px;
-            transition: width 0.3s ease-in-out;
+        .rules-container h2 {
+            margin-top: 0;
+            color: #e74c3c;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
         }
 
-        .sidebar {
-            position: absolute;
-            left: -100px;
-            width: 100px;
-            height: 50px;
-            background-color: #121212;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #b0b0b0;
-            border-radius: 10px;
-            transition: left 0.3s ease-in-out;
-            font-family: monospace;
-            cursor: pointer;
+        .rules-list {
+            list-style: none;
+            padding: 0;
         }
 
-        .header:hover .sidebar {
-            left: 0;
-        }
-
-        .header:hover .sidebar-trigger {
-            width: 20px;
-        }
-
-        .menu {
-            display: flex;
-            gap: 10px;
-        }
-
-        .menu-button {
-            background-color: #333;
-            color: #b0b0b0;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-            font-family: monospace;
-        }
-
-        .menu-button:hover {
-            background-color: #444;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 18px;
-            width: 80%;
-            margin-top: 100px;
-        }
-
-        .gallery-item {
+        .rules-list li {
             position: relative;
-            border-radius: 10px;
+            padding-left: 30px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .rules-list li::before {
+            content: "🦆";
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        /* Kártya rács */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            max-width: 1200px;
+            justify-content: center;
+        }
+
+        /* Kártyák */
+        .card {
+            width: 260px;
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
             overflow: hidden;
         }
 
-        .gallery img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            transition: transform 0.3s ease-in-out;
-            display: block;
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.15);
         }
 
-        .gallery-item:hover img {
-            transform: scale(1.1);
+        .card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
         }
 
-        .overlay {
+        .card:hover img {
+            transform: rotate(12deg) scale(1.1);
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            font-size: 1.4rem;
+            color: #111;
+            z-index: 2;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+            color: #333;
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .role-badge {
             position: absolute;
-            inset: 0; /* Ezzel az overlay teljesen lefedi a képet */
-            background: rgba(128, 128, 128, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 18px;
-            font-family: monospace;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            width: 100%;
-            height: 100%; /* Így mindig a kép méretéhez igazodik */
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.8);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
-        .gallery img {
-            width: 100%; /* Az alapbeállításod megmarad */
-            height: 100%; /* Ezzel biztosítod, hogy a képek kitöltsék a konténerüket */
-            object-fit: cover; /* A kép szépen kitölti a rendelkezésre álló területet */
-            transition: transform 0.3s ease-in-out;
-            display: block;
-        }
+        /* Háttérszínek */
+        .card:nth-child(1) { background-color: #FFB3BA; } 
+        .card:nth-child(2) { background-color: #FFDFBA; } 
+        .card:nth-child(3) { background-color: #FFFFBA; } 
+        .card:nth-child(4) { background-color: #BAFFC9; } 
+        .card:nth-child(5) { background-color: #BAE1FF; } 
+        .card:nth-child(6) { background-color: #D3B8FF; } 
+        .card:nth-child(7) { background-color: #FFB8E0; } 
+        .card:nth-child(8) { background-color: #E2F0CB; } 
+        .card:nth-child(9) { background-color: #FFC8A2; } 
+        .card:nth-child(10) { background-color: #C4FAF8; } 
+        .card:nth-child(11) { background-color: #E8B9AB; } 
+        .card:nth-child(12) { background-color: #B5EAD7; } 
+        .card:nth-child(13) { background-color: #F8B195; } 
 
-
-        .gallery-item:hover .overlay {
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="sidebar-trigger"></div>
-        <div class="sidebar" onclick="easterEgg()">Huba.</div>
-        <div class="menu">
-            <button class="menu-button" onclick="location.href='index.html'">Kezdolap</button>
-            <button class="menu-button" onclick="location.href='#'">Rolam</button>
-            <button class="menu-button" onclick="location.href='cont.html'">Contact</button>
-        </div>
-    </div>
-    <div class="gallery">
-        <div class="gallery-item">
-            <img src="https://i.imgur.com/B3CRaKJ.jpeg" alt="Kép 1">
-            <div class="overlay">Eguisheim, France📍</div>
-        </div>
-        <div class="gallery-item">
-            <img src="https://i.imgur.com/tJrnIUa.jpeg" alt="Kép 2">
-            <div class="overlay">Switzerland📍</div>
-        </div>
-        <div class="gallery-item">
-            <img src="https://i.imgur.com/5aDKXBq.jpeg" alt="Kép 3">
-            <div class="overlay">Murcia, Spain📍</div>
-        </div>
-        <div class="gallery-item">
-            <img src="https://i.imgur.com/IDxFzud.jpeg" alt="Kép 4">
-            <div class="overlay">Alicante, Spain📍</div>
-        </div>
-        <div class="gallery-item">
-            <img src="1742503303646.jpg" alt="Kép 5">
-            <div class="overlay">Tihany, Hungary📍</div>
-        </div>
-        <div class="gallery-item">
-            <img src="1743346762151.jpg" alt="Kép 6">
-            <div class="overlay">Pázmánd, Hungary📍</div>
-        </div>
+
+    <h1>Élő Goose Goose</h1>
+
+    <div class="rules-container">
+        <h2>📜 Szigorú Játékszabályok</h2>
+        <ul class="rules-list">
+            <li><strong>Szigorú titoktartás:</strong> Senki, semmilyen körülmények között nem fedi fel a szerepét!</li>
+            <li><strong>A halál csendes:</strong> Ha valaki meghal, szól a játékmesternek, de szigorúan úgy, hogy ne legyen feltűnő a többiek számára.</li>
+            <li><strong>Néma szellemek:</strong> Ha valakit megöltek, szigorú titoktartás kötelezi, nem mondhatja el a többieknek, hogy ki volt a gyilkosa.</li>
+            <li><strong>A gyilkosság feltételei:</strong> A kacsák csak akkor ölhetnek, ha <em>kettesben maradnak</em> a kiszemelt libával. A libák ebben a helyzetben sem fedhetik fel a szerepüket!</li>
+            <li><strong>Meeting korlátok:</strong> Egy meetingen maximum <strong>5 gyanúsítás</strong> hangozhat el. Okosan gazdálkodjatok az idővel és a szavakkal!</li>
+        </ul>
     </div>
 
-    <script>
-    </script>
+    <div class="card-container">
+        
+        <div class="card">
+            <div class="role-badge" style="color: #c0392b;">Kacsa</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Bérgyilkos">
+            <h3>Bérgyilkos</h3>
+            <p>Precíz és kegyetlen. A gyilkosságait a célpont szerepe alapján hajtja végre.</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #c0392b;">Kacsa</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Némító">
+            <h3>Némító</h3>
+            <p>A szavak mestere, vagyis inkább a hiányáé. A meetingeken képes elnémítani valakit.</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #c0392b;">Kacsa</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Ninja">
+            <h3>Ninja Kacsa</h3>
+            <p>Gyors és észrevehetetlen. Ha lecsap, képes dupla ölést végrehajtani a sötétben.</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #c0392b;">Kacsa</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Dodó">
+            <h3>Dodó Kacsa</h3>
+            <p>A becsapás mestere. Nem tud ölni, de a célja egyértelmű: ha a meetingen kiszavazzák, ő nyeri meg az egész játékot!</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Szerető">
+            <h3>Szerető Libák</h3>
+            <p>Ketten vagytok (2db). A sorsotok összefonódott, vigyázzatok egymásra a túlélésért!</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Detektív">
+            <h3>Detektív Liba</h3>
+            <p>A nyomozó. Naponta egyszer megkérdezheti a játékmestertől, hogy egy adott személy ölt-e már.</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Halottkém">
+            <h3>Halottkém</h3>
+            <p>Lát a fátyolon túlra. Pontosan tudja a már elhunyt játékosok valódi szerepét.</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Őrangyal">
+            <h3>Őrangyal</h3>
+            <p>Halála után is segít. Ha megölik, naponta 2 embert képes megvédeni a túlvilágról.</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Sheriff">
+            <h3>Sheriff</h3>
+            <p>Képes ölni. De vigyázat: ha ártatlan libát öl meg, a bűntudat (és a szabály) miatt ő is meghal.</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Hangos">
+            <h3>Hangos Liba</h3>
+            <p>A hangját nem lehet elvenni. Őt a Némító Kacsa sem képes elnémítani a meetingeken.</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Ügyvéd">
+            <h3>Ügyvéd Liba</h3>
+            <p>A befolyás mestere. Amennyi szavazatot kap az előző meetingen, annyit ér az ő szavazata a következőn (ha túléli).</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Szellem">
+            <h3>Szellem Liba</h3>
+            <p>Van egy második esélye. Ha megölik, egyszer visszatérhet a játékba (ez csak a meetingen derül ki).</p>
+        </div>
+
+        <div class="card">
+            <div class="role-badge" style="color: #27ae60;">Liba</div>
+            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Pletykás">
+            <h3>Pletykás Libák</h3>
+            <p>Ketten vagytok (2db). Ha egyikőtöket megölik, a halott elmondhatja a társának ki volt a gyilkos (de hazudhat is!).</p>
+        </div>
+
+    </div>
 
 </body>
 </html>
