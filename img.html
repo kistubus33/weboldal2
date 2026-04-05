@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Élő Goose Goose Duck</title>
+    <title>----</title>
     <style>
         /* Alapbeállítások */
         body {
@@ -97,21 +97,20 @@
             box-shadow: 0 15px 25px rgba(0,0,0,0.15);
         }
 
+        /* GGD PNG Ikon beállítások */
         .card img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: contain; 
             margin-bottom: 15px;
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: transparent; 
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)); 
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 2;
         }
 
         .card:hover img {
-            transform: rotate(12deg) scale(1.1);
+            transform: rotate(12deg) scale(1.15); 
         }
 
         .card h3 {
@@ -140,9 +139,10 @@
             font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* Háttérszínek */
+        /* Pasztell háttérszínek */
         .card:nth-child(1) { background-color: #FFB3BA; } 
         .card:nth-child(2) { background-color: #FFDFBA; } 
         .card:nth-child(3) { background-color: #FFFFBA; } 
@@ -178,96 +178,130 @@
         
         <div class="card">
             <div class="role-badge" style="color: #c0392b;">Kacsa</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Bérgyilkos">
+            <img data-role="Assassin" alt="Bérgyilkos" class="role-img">
             <h3>Bérgyilkos</h3>
             <p>Precíz és kegyetlen. A gyilkosságait a célpont szerepe alapján hajtja végre.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #c0392b;">Kacsa</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Némító">
+            <img src="https://clan.fastly.steamstatic.com/images//40318739/e30ce96502335335424556b2c5e9006b9ce9f2cb.png" alt="Némító">
             <h3>Némító</h3>
             <p>A szavak mestere, vagyis inkább a hiányáé. A meetingeken képes elnémítani valakit.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #c0392b;">Kacsa</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Ninja">
+            <img data-role="Ninja" alt="Ninja" class="role-img">
             <h3>Ninja Kacsa</h3>
             <p>Gyors és észrevehetetlen. Ha lecsap, képes dupla ölést végrehajtani a sötétben.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #c0392b;">Kacsa</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Dodó">
+            <img data-role="Dodo" alt="Dodó" class="role-img">
             <h3>Dodó Kacsa</h3>
             <p>A becsapás mestere. Nem tud ölni, de a célja egyértelmű: ha a meetingen kiszavazzák, ő nyeri meg az egész játékot!</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Szerető">
+            <img src="https://clan.fastly.steamstatic.com/images//40318739/8c06ae7627a137f0d2a912a65aece133981ed33f.png" alt="Szerető">
             <h3>Szerető Libák</h3>
             <p>Ketten vagytok (2db). A sorsotok összefonódott, vigyázzatok egymásra a túlélésért!</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Detektív">
+            <img src="https://static.wikia.nocookie.net/goose-goose-duck/images/7/77/Detective_.png/revision/latest?cb=20260310135750" alt="Detektív">
             <h3>Detektív Liba</h3>
             <p>A nyomozó. Naponta egyszer megkérdezheti a játékmestertől, hogy egy adott személy ölt-e már.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Halottkém">
+            <img data-role="Mortician" alt="Halottkém" class="role-img">
             <h3>Halottkém</h3>
             <p>Lát a fátyolon túlra. Pontosan tudja a már elhunyt játékosok valódi szerepét.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Őrangyal">
+            <img src="https://clan.fastly.steamstatic.com/images//40318739/a213463bf9a036e504d841f732a9a06600146538.png" alt="Őrangyal">
             <h3>Őrangyal</h3>
             <p>Halála után is segít. Ha megölik, naponta 2 embert képes megvédeni a túlvilágról.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Sheriff">
+            <img data-role="Sheriff" alt="Sheriff" class="role-img">
             <h3>Sheriff</h3>
-            <p>Képes ölni. De vigyázat: ha ártatlan libát öl meg, a bűntudat (és a szabály) miatt ő is meghal.</p>
+            <p>Képes ölni. De vigyázat: ha ártatlan libát öl meg, a bűntudat miatt ő is meghal.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Hangos">
+            <img src="https://tiermaker.com/images/template_images/2022/15472270/goose-goose-duck-all-roles-tierlist-15472270/zzzzz-1717817508mime-duck.png" alt="Hangos">
             <h3>Hangos Liba</h3>
             <p>A hangját nem lehet elvenni. Őt a Némító Kacsa sem képes elnémítani a meetingeken.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Ügyvéd">
+            <img src="https://static.wikia.nocookie.net/goose-goose-duck/images/9/96/LobbyistIcon.png/revision/latest/thumbnail/width/360/height/360?cb=20260310133519" alt="Ügyvéd">
             <h3>Ügyvéd Liba</h3>
-            <p>A befolyás mestere. Amennyi szavazatot kap az előző meetingen, annyit ér az ő szavazata a következőn (ha túléli).</p>
+            <p>A befolyás mestere. Amennyi szavazatot kap az előző meetingen, annyit ér az ő szavazata a következőn.</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Szellem">
+            <img data-role="Astral" alt="Szellem" class="role-img">
             <h3>Szellem Liba</h3>
             <p>Van egy második esélye. Ha megölik, egyszer visszatérhet a játékba (ez csak a meetingen derül ki).</p>
         </div>
 
         <div class="card">
             <div class="role-badge" style="color: #27ae60;">Liba</div>
-            <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=150&h=150&q=80" alt="Pletykás">
+            <img src="https://static.wikia.nocookie.net/goose-goose-duck/images/2/2e/StalkerIcon.png/revision/latest/thumbnail/width/360/height/360?cb=20260310123619" alt="Pletykás">
             <h3>Pletykás Libák</h3>
-            <p>Ketten vagytok (2db). Ha egyikőtöket megölik, a halott elmondhatja a társának ki volt a gyilkos (de hazudhat is!).</p>
+            <p>Ketten vagytok (2db). Ha egyikőtöket megölik, a halott elmondhatja ki volt a gyilkos (de hazudhat is!).</p>
         </div>
 
     </div>
+
+    <script>
+        document.querySelectorAll('.role-img').forEach(img => {
+            const role = img.getAttribute('data-role');
+            
+            // Végigpróbálja a lehetséges ikon neveket
+            const attempts = [
+                `https://goose-goose-duck.fandom.com/wiki/Special:FilePath/${role}Icon.png`,
+                `https://goose-goose-duck.fandom.com/wiki/Special:FilePath/${role}_Icon.png`,
+                `https://goose-goose-duck.fandom.com/wiki/Special:FilePath/${role}_icon.png`,
+                `https://goose-goose-duck.fandom.com/wiki/Special:FilePath/Icon_${role}.png`,
+                `https://goose-goose-duck.fandom.com/wiki/Special:FilePath/${role}_Role.png`,
+                `https://goose-goose-duck.fandom.com/wiki/Special:FilePath/${role}_Head.png`,
+                `https://goose-goose-duck.fandom.com/wiki/Special:FilePath/${role}.webp`,
+                // Ha semmi más nincs, jöhet a sima név
+                `https://goose-goose-duck.fandom.com/wiki/Special:FilePath/${role}.png`
+            ];
+            
+            let index = 0;
+            
+            img.onerror = () => {
+                index++;
+                if (index < attempts.length) {
+                    img.src = attempts[index];
+                } else {
+                    // Végső fallback
+                    img.src = 'https://goose-goose-duck.fandom.com/wiki/Special:FilePath/Goose.png';
+                }
+            };
+            
+            // Indítás
+            img.src = attempts[0];
+        });
+    </script>
 
 </body>
 </html>
